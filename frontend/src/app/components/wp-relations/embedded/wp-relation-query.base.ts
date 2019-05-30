@@ -42,7 +42,7 @@ export abstract class WorkPackageRelationQueryBase {
   public queryProps:Object;
 
   /** Reference to the embedded table instance */
-  @ViewChild('embeddedTable') protected embeddedTable:WorkPackageEmbeddedTableComponent;
+  @ViewChild('embeddedTable', { static: true }) protected embeddedTable:WorkPackageEmbeddedTableComponent;
 
   constructor(protected queryUrlParamsHelper:UrlParamsHelperService) {
   }

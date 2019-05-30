@@ -69,7 +69,7 @@ export class WorkPackageRelationsAutocomplete implements AfterContentInit {
   @Input() filterCandidatesFor:string;
 
   @Input() appendToContainer:string = 'body';
-  @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
+  @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
 
   @Output() onCancel = new EventEmitter<undefined>();
   @Output() onReferenced = new EventEmitter<WorkPackageResource>();

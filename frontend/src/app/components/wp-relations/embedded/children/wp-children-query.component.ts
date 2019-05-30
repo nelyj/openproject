@@ -52,7 +52,7 @@ export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryB
   @Input() public workPackage:WorkPackageResource;
   @Input() public query:any;
   @Input() public addExistingChildEnabled:boolean = false;
-  @ViewChild('childrenEmbeddedTable') private childrenEmbeddedTable:WorkPackageEmbeddedTableComponent;
+  @ViewChild('childrenEmbeddedTable', { static: false }) private childrenEmbeddedTable:WorkPackageEmbeddedTableComponent;
 
   public tableActions:OpTableActionFactory[] = [
     OpUnlinkTableAction.factoryFor(

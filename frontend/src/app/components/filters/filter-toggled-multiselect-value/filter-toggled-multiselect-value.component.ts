@@ -48,7 +48,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit {
   @Input() public filter:QueryFilterInstanceResource;
   @Output() public filterChanged = new EventEmitter<QueryFilterInstanceResource>();
 
-  @ViewChild('ngSelectInstance') ngSelectInstance:NgSelectComponent;
+  @ViewChild('ngSelectInstance', { static: true }) ngSelectInstance:NgSelectComponent;
 
   public _availableOptions:HalResource[] = [];
   public compareByHrefOrString = AngularTrackingHelpers.compareByHrefOrString;

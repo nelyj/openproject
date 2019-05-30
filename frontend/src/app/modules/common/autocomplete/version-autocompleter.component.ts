@@ -59,7 +59,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 })
 
 export class VersionAutocompleterComponent extends CreateAutocompleterComponent implements OnInit, AfterViewInit {
-  @ViewChild('createAutocompleter') public createAutocompleter:CreateAutocompleterComponent;
+  @ViewChild('createAutocompleter', { static: true }) public createAutocompleter:CreateAutocompleterComponent;
   @Output() public onCreate = new EventEmitter<VersionResource>();
 
   public createAllowed:boolean = false;
