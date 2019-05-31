@@ -183,9 +183,9 @@ export class HalResource {
     return null;
   }
 
-  public $load(force = false):Promise<this> {
+  public $load(force = false, halLinkParams:any = {}):Promise<this> {
     if (!this.state) {
-      return this.$loadResource(force);
+      return this.$loadResource(force, halLinkParams);
     }
 
     const state = this.state;
@@ -196,7 +196,7 @@ export class HalResource {
 
     // If nobody has asked yet for the resource to be $loaded, do it ourselves.
     // Otherwise, we risk returning a promise, that will never be resolved.
-    state.putFromPromiseIfPristine(() => this.$loadResource(force));
+    state.putFromPromiseIfPristine(() => this.$loadResource(force, halLinkParams));
 
     return <Promise<this>> state.valuesPromise().then((source:any) => {
       this.$initialize(source);
@@ -205,7 +205,7 @@ export class HalResource {
     });
   }
 
-  protected $loadResource(force = false):Promise<this> {
+  protected $loadResource(force = false, halLinkParams:any = {}):Promise<this> {
     if (!force) {
       if (this.$loaded) {
         return Promise.resolve(this);
@@ -218,7 +218,7 @@ export class HalResource {
 
     // Reset and load this resource
     this.$loaded = false;
-    this.$self = this.$links.self({}).then((source:any) => {
+    this.$self = this.$links.self(halLinkParams).then((source:any) => {
       this.$loaded = true;
       this.$initialize(source.$source);
       return this;

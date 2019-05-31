@@ -37,6 +37,10 @@ module API
             authorize(:add_work_packages, global: true)
           end
 
+          params do
+            optional :for_type, type: Integer
+          end
+
           get do
             checked_permissions = Projects::ProjectCollectionRepresenter.checked_permissions
             current_user.preload_projects_allowed_to(checked_permissions)
@@ -44,6 +48,15 @@ module API
             available_projects = WorkPackage
                                  .allowed_target_projects_on_create(current_user)
                                  .includes(Projects::ProjectCollectionRepresenter.to_eager_load)
+
+            if params[:for_type]
+              available_projects = available_projects.merge(
+                Project
+                  .joins(:types)
+                  .where("#{Type.table_name}.id = ?", params[:for_type])
+              )
+            end
+
             self_link = api_v3_paths.available_projects_on_create
             Projects::ProjectCollectionRepresenter.new(available_projects,
                                                        self_link,

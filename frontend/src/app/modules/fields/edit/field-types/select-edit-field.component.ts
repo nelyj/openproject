@@ -129,13 +129,22 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     if (Array.isArray(allowedValues)) {
       this.setValues(allowedValues);
     } else if (allowedValues) {
-      return allowedValues.$load().then((values:CollectionResource) => {
+      return allowedValues.$load(false, this.allowedValuesParams).then((values:CollectionResource) => {
         this.setValues(values.elements);
       });
     } else {
       this.setValues([]);
     }
     return Promise.resolve();
+  }
+
+  private get allowedValuesParams() {
+    const type = this.changeset.value('type');
+    if (this.name === 'project' && type && type.id) {
+      return { for_type: type.id };
+    }
+
+    return {};
   }
 
   private addValue(val:HalResource) {
